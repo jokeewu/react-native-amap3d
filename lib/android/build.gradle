@@ -24,7 +24,9 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile 'com.amap.api:3dmap:6.6.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.facebook.react:react-native:+'
+    // implementation 'com.amap.api:3dmap:6.6.0'
+    // 注意：navi导航SDK 5.0.0以后版本包含了3D地图SDK，所以请不要同时引入 map3d 和 navi SDK
+    implementation 'com.amap.api:navi-3dmap:+'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

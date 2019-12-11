@@ -61,6 +61,8 @@ export default class Examples extends Component {
     return (
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
         <View style={styles.group}>
+          {this._renderItem('路径规划', 'PlanRoute')}
+          <View style={styles.separator} />
           {this._renderItem('地图模式', 'MapTypes')}
           <View style={styles.separator} />
           {this._renderItem('基本图层', 'Layers')}

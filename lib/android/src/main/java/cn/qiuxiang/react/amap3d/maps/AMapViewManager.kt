@@ -16,6 +16,7 @@ import com.facebook.react.uimanager.annotations.ReactProp
 internal class AMapViewManager : ViewGroupManager<AMapView>() {
     companion object {
         val ANIMATE_TO = 1
+        val PLAN_ROUTE = 2
     }
 
     override fun getName(): String {
@@ -32,12 +33,16 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
     }
 
     override fun getCommandsMap(): Map<String, Int> {
-        return mapOf("animateTo" to ANIMATE_TO)
+        return mapOf(
+                "animateTo" to ANIMATE_TO,
+                "planRoute" to PLAN_ROUTE
+        )
     }
 
     override fun receiveCommand(overlay: AMapView, commandId: Int, args: ReadableArray?) {
         when (commandId) {
             ANIMATE_TO -> overlay.animateTo(args)
+            PLAN_ROUTE -> overlay.planRoute(args)
         }
     }
 
