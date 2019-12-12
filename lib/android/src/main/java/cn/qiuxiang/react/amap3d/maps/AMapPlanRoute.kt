@@ -8,11 +8,16 @@ import com.amap.api.navi.AMapNaviListener
 import com.amap.api.navi.model.*
 import com.amap.api.navi.view.RouteOverLay
 import com.autonavi.tbt.TrafficFacilityInfo
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.uimanager.ThemedReactContext
+import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.facebook.react.views.view.ReactViewGroup
 
 class AMapPlanRoute(context: Context) : ReactViewGroup(context), AMapOverlay, AMapNaviListener {
+    private val eventEmitter: RCTEventEmitter = (context as ThemedReactContext).getJSModule(RCTEventEmitter::class.java)
     private var mapInstance : AMap? = null
-    private val mAMapNavi = AMapNavi.getInstance(context.applicationContext)
+    private val mAMapNavi : AMapNavi = AMapNavi.getInstance(context.applicationContext)
     private var routeOverlay : RouteOverLay? = null
 
     var startPoi : NaviPoi? = null
@@ -26,6 +31,15 @@ class AMapPlanRoute(context: Context) : ReactViewGroup(context), AMapOverlay, AM
     var drawPaddingLeft : Int = 10
     var showTrafficLights : Boolean = false
     var showTrafficStatus : Boolean = false
+
+    fun emit(id: Int?, name: String, data: WritableMap = Arguments.createMap()) {
+        id?.let { eventEmitter.receiveEvent(it, name, data) }
+    }
+
+    // 将路线全部显示出来
+    fun zoomToSpan() {
+        routeOverlay?.zoomToSpan(drawPaddingLeft, drawPaddingRight, drawPaddingTop, drawPaddingBottom, mAMapNavi?.naviPath)
+    }
 
     private fun planRoute() {
         if (null != startPoi && null != endPoi) {
@@ -75,7 +89,14 @@ class AMapPlanRoute(context: Context) : ReactViewGroup(context), AMapOverlay, AM
             routeOverlay?.clearTrafficLights()
         }
         // 将地图zoom到可以全览全路段的级别
-        routeOverlay?.zoomToSpan(drawPaddingLeft, drawPaddingRight, drawPaddingTop, drawPaddingBottom, mAMapNavi?.naviPath)
+        zoomToSpan()
+
+        emit(null, "onPlanSuccess")
+    }
+
+    // 路径规划失败
+    override fun onCalculateRouteFailure(var1: AMapCalcRouteResult) {
+        emit(null, "onPlanFailed")
     }
 
     override fun onInitNaviFailure() {}
@@ -156,8 +177,6 @@ class AMapPlanRoute(context: Context) : ReactViewGroup(context), AMapOverlay, AM
     override fun updateAimlessModeCongestionInfo(var1: AimLessModeCongestionInfo) {}
 
     override fun onPlayRing(var1: Int) {}
-
-    override fun onCalculateRouteFailure(var1: AMapCalcRouteResult) {}
 
     override fun onNaviRouteNotify(var1: AMapNaviRouteNotifyData) {}
 }

@@ -5,6 +5,7 @@ import cn.qiuxiang.react.amap3d.toPx
 import com.amap.api.navi.model.NaviPoi
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
@@ -19,8 +20,28 @@ internal class AMapPlanRouteManager : SimpleViewManager<AMapPlanRoute>() {
         return AMapPlanRoute(reactContext)
     }
 
-    override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any> {
-        return mapOf("onPress" to mapOf("registrationName" to "onPress"))
+    override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
+        return MapBuilder.of(
+        "onPress", MapBuilder.of("registrationName", "onPress"),
+        "onPlanSuccess", MapBuilder.of("registrationName", "onPlanSuccess"),
+        "onPlanFailed", MapBuilder.of("registrationName", "onPlanFailed")
+        )
+    }
+
+    companion object {
+        val ZOOM_TO_SPAN = 1
+    }
+
+    override fun getCommandsMap(): Map<String, Int> {
+        return mapOf(
+            "zoomToSpan" to ZOOM_TO_SPAN
+        )
+    }
+
+    override fun receiveCommand(route: AMapPlanRoute, commandId: Int, args: ReadableArray?) {
+        when (commandId) {
+            ZOOM_TO_SPAN -> route.zoomToSpan()
+        }
     }
 
     @ReactProp(name = "startPoi")
