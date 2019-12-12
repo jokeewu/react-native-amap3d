@@ -1,7 +1,6 @@
 package cn.qiuxiang.react.amap3d.maps
 
 import android.content.Context
-import android.util.Log
 import com.amap.api.maps.AMap
 import com.amap.api.navi.AMapNavi
 import com.amap.api.navi.AMapNaviListener
@@ -91,12 +90,12 @@ class AMapPlanRoute(context: Context) : ReactViewGroup(context), AMapOverlay, AM
         // 将地图zoom到可以全览全路段的级别
         zoomToSpan()
 
-        emit(null, "onPlanSuccess")
+        emit(id, "onPlanSuccess")
     }
 
     // 路径规划失败
     override fun onCalculateRouteFailure(var1: AMapCalcRouteResult) {
-        emit(null, "onPlanFailed")
+        emit(id, "onPlanFailed")
     }
 
     override fun onInitNaviFailure() {}

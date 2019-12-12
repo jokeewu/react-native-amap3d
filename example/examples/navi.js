@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, NativeModules } from 'react-native'
 import { MapView, PlanRoute, Marker } from 'react-native-amap3d'
+
+const { AMapNavi } = NativeModules
 
 export default class PlanRouteExample extends Component {
   static navigationOptions = {
-    title: '路径规划',
+    title: '路径导航',
   }
 
   constructor(props) {
@@ -14,15 +16,16 @@ export default class PlanRouteExample extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      if (this.planRouteRef && this.planRouteRef.current) {
-        this.planRouteRef.current.zoomToSpan()
-      }
-    }, 5000)
+    console.log(AMapNavi)
+  }
+
+  componentWillUnmount() {
+    AMapNavi.stop()
   }
 
   onPlanSuccess = () => {
     console.log('路径规划成功')
+    AMapNavi.start()
   }
 
   onPlanFailed = () => {
@@ -31,7 +34,11 @@ export default class PlanRouteExample extends Component {
 
   render() {
     return (
-      <MapView style={StyleSheet.absoluteFill}>
+      <MapView
+        locationType="map_rotate"
+        locationEnabled={true}
+        style={StyleSheet.absoluteFill}
+      >
         <Marker
           coordinate={{
             longitude: 104.066937,

@@ -63,6 +63,8 @@ export default class Examples extends Component {
         <View style={styles.group}>
           {this._renderItem('路径规划', 'PlanRoute')}
           <View style={styles.separator} />
+          {this._renderItem('路径导航', 'Navi')}
+          <View style={styles.separator} />
           {this._renderItem('地图模式', 'MapTypes')}
           <View style={styles.separator} />
           {this._renderItem('基本图层', 'Layers')}

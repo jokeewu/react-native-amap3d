@@ -2,6 +2,7 @@ import { Platform } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import Examples from './examples'
 import PlanRoute from './examples/plan-route'
+import Navi from './examples/navi'
 import MapTypes from './examples/map-types'
 import Layers from './examples/layers'
 import Indoor from './examples/indoor'
@@ -20,6 +21,7 @@ import MultiPoint from './examples/multi-point'
 export default StackNavigator({
   Examples: { screen: Examples },
   PlanRoute: { screen: PlanRoute },
+  Navi: { screen: Navi },
   MapTypes: { screen: MapTypes },
   Layers: { screen: Layers },
   Indoor: { screen: Indoor },

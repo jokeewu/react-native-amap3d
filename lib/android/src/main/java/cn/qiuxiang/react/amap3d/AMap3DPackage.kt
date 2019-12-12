@@ -9,21 +9,22 @@ import com.facebook.react.uimanager.ViewManager
 class AMap3DPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         return listOf(
-                AMapOfflineModule(reactContext)
+            AMapOfflineModule(reactContext),
+            AMapNaviModule(reactContext)
         )
     }
 
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
         return listOf(
-                AMapViewManager(),
-                AMapMarkerManager(),
-                AMapInfoWindowManager(),
-                AMapPolylineManager(),
-                AMapPolygonManager(),
-                AMapCircleManager(),
-                AMapHeatMapManager(),
-                AMapMultiPointManager(),
-                AMapPlanRouteManager()
+            AMapViewManager(),
+            AMapMarkerManager(),
+            AMapInfoWindowManager(),
+            AMapPolylineManager(),
+            AMapPolygonManager(),
+            AMapCircleManager(),
+            AMapHeatMapManager(),
+            AMapMultiPointManager(),
+            AMapPlanRouteManager()
         )
     }
 }
