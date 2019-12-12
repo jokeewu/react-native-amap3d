@@ -19,11 +19,7 @@ import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.events.RCTEventEmitter
 
-import com.amap.api.navi.AMapNavi
-import com.amap.api.navi.model.*
-
 class AMapView(context: Context) : TextureMapView(context) {
-    private val mAMapNavi = AMapNavi.getInstance(context.applicationContext)
     private val eventEmitter: RCTEventEmitter = (context as ThemedReactContext).getJSModule(RCTEventEmitter::class.java)
     private val markers = HashMap<String, AMapMarker>()
     private val lines = HashMap<String, AMapPolyline>()
@@ -35,8 +31,6 @@ class AMapView(context: Context) : TextureMapView(context) {
 
     init {
         super.onCreate(null)
-
-        mAMapNavi.addAMapNaviListener(NaviListener(context,this, mAMapNavi))
 
         map.setOnMapClickListener { latLng ->
             for (marker in markers.values) {
@@ -237,14 +231,5 @@ class AMapView(context: Context) : TextureMapView(context) {
     fun setLocationType(type: Int) {
         locationStyle.myLocationType(type)
         map.myLocationStyle = locationStyle
-    }
-
-    // 路径规划
-    fun planRoute(args: ReadableArray?) {
-        val target = args?.getMap(0)!!
-        val startPoi = NaviPoi(null, target.getMap("startPoi").toLatLng(), null)
-        val endPoi = NaviPoi(null, target.getMap("endPoi").toLatLng(), null)
-        val strategy = target.getInt("strategy") ?: 0
-        mAMapNavi.calculateDriveRoute(startPoi, endPoi, null, strategy)
     }
 }
