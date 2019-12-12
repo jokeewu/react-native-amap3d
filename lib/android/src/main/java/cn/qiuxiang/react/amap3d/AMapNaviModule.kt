@@ -1,6 +1,7 @@
 package cn.qiuxiang.react.amap3d
 
 import com.amap.api.navi.AMapNavi
+import com.amap.api.navi.enums.NaviType
 import com.facebook.react.bridge.*
 
 @Suppress("unused")
@@ -15,7 +16,8 @@ class AMapNaviModule(private val reactContext: ReactApplicationContext) : ReactC
     fun start() {
         mAMapNavi = AMapNavi.getInstance(reactContext.applicationContext)
         mAMapNavi?.setUseInnerVoice(true)
-        mAMapNavi?.startNavi(AMapNavi.GPSNaviMode)
+        mAMapNavi?.startGPS()
+        mAMapNavi?.startNavi(NaviType.GPS)
     }
 
     @ReactMethod
