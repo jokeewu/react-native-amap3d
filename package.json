@@ -15,7 +15,8 @@
     "lib/js",
     "lib/android/src",
     "lib/android/build.gradle",
-    "lib/ios"
+    "lib/ios",
+    "react-native.config.js"
   ],
   "repository": {
     "type": "git",
